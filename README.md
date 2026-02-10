@@ -18,13 +18,7 @@ All parameters are optional. If omitted, defaults are used.
 Example:
 
 ```
-file:///Users/ayushkc/Desktop/Valentines%20day/index.html?name=Queen&date=February%2014th&time=7:00%20PM&location=To%20be%20decided
-```
-
-If your browser ignores query params on `file://` URLs, use the hash version:
-
-```
-file:///Users/ayushkc/Desktop/Valentines%20day/index.html#name=Queen&date=February%2014th&time=7:00%20PM&location=To%20be%20decided
+https://ayushkc007.github.io/Valentine/?name=Ayush&date=February 14th&time=7:00 PM&location=At my place
 ```
 
 ## Behavior
