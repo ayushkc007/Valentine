@@ -134,6 +134,7 @@
       border-radius: 999px;
       font-weight: 600;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      touch-action: manipulation;
     }
 
     .yes {
@@ -245,6 +246,7 @@
       height: 120px;
       display: grid;
       place-items: center;
+      touch-action: manipulation;
     }
 
     @media (max-width: 600px) {
@@ -351,14 +353,33 @@
       }, 180);
     };
 
-    const handleApproach = (event) => {
+    const isCloseToButton = (clientX, clientY) => {
       const btnRect = noBtn.getBoundingClientRect();
       const distance = Math.hypot(
-        event.clientX - (btnRect.left + btnRect.width / 2),
-        event.clientY - (btnRect.top + btnRect.height / 2)
+        clientX - (btnRect.left + btnRect.width / 2),
+        clientY - (btnRect.top + btnRect.height / 2)
       );
+      return distance < 140;
+    };
 
-      if (distance < 120) {
+    const handleApproach = (event) => {
+      if (isCloseToButton(event.clientX, event.clientY)) {
+        moveNoButton();
+      }
+    };
+
+    const handleTouchStart = (event) => {
+      if (!event.touches || !event.touches.length) return;
+      const touch = event.touches[0];
+      if (isCloseToButton(touch.clientX, touch.clientY)) {
+        moveNoButton();
+      }
+    };
+
+    const handleTouchMove = (event) => {
+      if (!event.touches || !event.touches.length) return;
+      const touch = event.touches[0];
+      if (isCloseToButton(touch.clientX, touch.clientY)) {
         moveNoButton();
       }
     };
@@ -367,7 +388,8 @@
     noBtn.addEventListener("pointerenter", moveNoButton);
     noBtn.addEventListener("touchstart", moveNoButton, { passive: true });
     runawayZone.addEventListener("mousemove", handleApproach);
-    runawayZone.addEventListener("touchstart", moveNoButton, { passive: true });
+    runawayZone.addEventListener("touchstart", handleTouchStart, { passive: true });
+    runawayZone.addEventListener("touchmove", handleTouchMove, { passive: true });
 
     yesBtn.addEventListener("click", () => {
       reveal.classList.add("active");
